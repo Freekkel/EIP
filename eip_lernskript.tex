@@ -6,7 +6,6 @@
 \usepackage[ngerman]{babel}
 \usepackage[german,figure,linesnumbered,lined]{algorithm2e}
 \usepackage{tikz}
-%\usepackage{tkz-fct}
 \usepackage{color}
 \usepackage{graphics}
 \usepackage{graphicx}
@@ -42,10 +41,6 @@
 \evensidemargin1mm
 \oddsidemargin1mm
 
-%Schwarze MAgie, Vodoo, ....
-\newcommand{\tab}{\hspace*{3em}}
-\newcommand{\RM}[1]{\MakeUppercase{\romannumeral #1}}
-
 %Java Anpassungen
 
 \definecolor{javared}{rgb}{0.6,0,0} % for strings
@@ -68,17 +63,9 @@ showspaces=false,
 showstringspaces=false}
 
 
-% Farbanpassung
-\newrgbcolor{pgreen}{0 1 0}
-\newrgbcolor{pblue}{0 0 1}
-\newrgbcolor{plightgrey}{0.3 0.3 0.3}
-\newrgbcolor{pgrey}{0.6 0.6 0.6}
-\newrgbcolor{pdarkgrey}{0.8 0.8 0.8}
-\newrgbcolor{pred}{1 0 0}
-\newrgbcolor{pviolet}{1 0 1}
 
 %Subsections werden hiermit nicht in das Inhaltsverzeichnis übernommen
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 
 
 %Dokumentenanfang mit diversen input von mehreren Einzeldokumenten.
@@ -91,8 +78,6 @@ showstringspaces=false}
 	 
 	\mainmatter 
 		\input{mainmatter/vorlesung}
-%		\input{mainmatter/chapter_2} 
-%		\input{mainmatter/chapter_3} 
 	 
 	\backmatter 
 		\input{backmatter/listoffigures} 

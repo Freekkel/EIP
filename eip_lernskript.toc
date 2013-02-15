@@ -27,3 +27,34 @@
 \contentsline {section}{\numberline {1.14}G\IeC {\"u}ltigkeitsbereiche}{7}
 \contentsline {section}{\numberline {1.15}for-Schleife}{7}
 \contentsline {section}{\numberline {1.16}Switch}{7}
+\contentsline {subsection}{\numberline {1.16.1}case-Label}{8}
+\contentsline {subsection}{\numberline {1.16.2}Fall through}{9}
+\contentsline {section}{\numberline {1.17}Klassen}{9}
+\contentsline {subsection}{\numberline {1.17.1}Klassennamen}{9}
+\contentsline {subsection}{\numberline {1.17.2}Objektvariablen}{9}
+\contentsline {subsubsection}{Zugriff}{9}
+\contentsline {subsubsection}{Umgang}{10}
+\contentsline {subsubsection}{Objektvariablen unterschiedlicher Objekte}{10}
+\contentsline {subsection}{\numberline {1.17.3}Referenztypen}{10}
+\contentsline {subsection}{\numberline {1.17.4}Objekte / Instanzen}{10}
+\contentsline {subsection}{\numberline {1.17.5}Operator new}{11}
+\contentsline {subsection}{\numberline {1.17.6}Methoden}{11}
+\contentsline {subsubsection}{Aufruf}{11}
+\contentsline {subsubsection}{Methodenrumpf}{12}
+\contentsline {subsubsection}{Namenskollision}{12}
+\contentsline {subsubsection}{Parameter\IeC {\"u}bergabe}{12}
+\contentsline {section}{\numberline {1.18}Methoden\IeC {\"u}berladung}{13}
+\contentsline {subsection}{\numberline {1.18.1}Aufruf \IeC {\"u}berladener Methoden}{13}
+\contentsline {subsection}{\numberline {1.18.2}Mehdeutige Aufrufe: Aufrufbeispiele}{13}
+\contentsline {section}{\numberline {1.19}Ergebnisr\IeC {\"u}ckgabe}{13}
+\contentsline {subsection}{\numberline {1.19.1}Idee}{13}
+\contentsline {subsection}{\numberline {1.19.2}Definition}{14}
+\contentsline {subsection}{\numberline {1.19.3}Schema}{14}
+\contentsline {section}{\numberline {1.20}Arrays}{14}
+\contentsline {subsection}{\numberline {1.20.1}Motivation}{14}
+\contentsline {subsection}{\numberline {1.20.2}Arraytypen}{14}
+\contentsline {subsection}{\numberline {1.20.3}Allokieren}{15}
+\contentsline {subsection}{\numberline {1.20.4}Arrayliterale}{15}
+\contentsline {subsection}{\numberline {1.20.5}Elementzugriff}{15}
+\contentsline {subsection}{\numberline {1.20.6}Syntax}{16}
+\contentsline {subsection}{\numberline {1.20.7}forech-Schleife}{16}
