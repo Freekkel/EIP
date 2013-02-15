@@ -58,3 +58,71 @@
 \contentsline {subsection}{\numberline {1.20.5}Elementzugriff}{15}
 \contentsline {subsection}{\numberline {1.20.6}Syntax}{16}
 \contentsline {subsection}{\numberline {1.20.7}forech-Schleife}{16}
+\contentsline {subsubsection}{Anwendung}{17}
+\contentsline {subsection}{\numberline {1.20.8}Varargs}{17}
+\contentsline {section}{\numberline {1.21}Konstruktoren}{17}
+\contentsline {subsubsection}{Ziel:}{18}
+\contentsline {subsubsection}{Idee:}{18}
+\contentsline {subsubsection}{Beispiel:}{18}
+\contentsline {subsection}{\numberline {1.21.1}Defaultwerten von Objektvariablen}{18}
+\contentsline {subsection}{\numberline {1.21.2}Copy-Konstruktoren}{18}
+\contentsline {subsection}{\numberline {1.21.3}Verkettete Konstruktoren}{19}
+\contentsline {subsection}{\numberline {1.21.4}Ergebnisr\IeC {\"u}ckgabe bei Konstruktoren}{19}
+\contentsline {section}{\numberline {1.22}Klassenvariablen}{19}
+\contentsline {subsection}{\numberline {1.22.1}Definition}{19}
+\contentsline {subsection}{\numberline {1.22.2}Zugriff}{19}
+\contentsline {subsection}{\numberline {1.22.3}Initialisierung}{20}
+\contentsline {subsection}{\numberline {1.22.4}Verwendung}{20}
+\contentsline {section}{\numberline {1.23}Statische Methoden}{20}
+\contentsline {subsection}{\numberline {1.23.1}main}{21}
+\contentsline {section}{\numberline {1.24}Packages}{21}
+\contentsline {subsection}{\numberline {1.24.1}Motivation}{21}
+\contentsline {subsubsection}{Idee:}{21}
+\contentsline {subsubsection}{Konvetion:}{21}
+\contentsline {subsubsection}{Einsch\IeC {\"a}rnkungen:}{22}
+\contentsline {subsection}{\numberline {1.24.2}Packagehierarchien}{22}
+\contentsline {subsection}{\numberline {1.24.3}Dynamisches Laden von Bytecode}{22}
+\contentsline {subsection}{\numberline {1.24.4}import-Klausel}{23}
+\contentsline {subsection}{\numberline {1.24.5}Defaultpackage}{23}
+\contentsline {subsection}{\numberline {1.24.6}Archivdateien - Jar-Files}{24}
+\contentsline {section}{\numberline {1.25}Rekursion}{25}
+\contentsline {subsection}{\numberline {1.25.1}Rekursion = Definition einer Funktion durch sich selbst}{25}
+\contentsline {subsection}{\numberline {1.25.2}Beispiel: Sum(n) := Summe der Zahlen 1..n}{25}
+\contentsline {subsection}{\numberline {1.25.3}Beispiel: Fibonacci-Zahlen}{25}
+\contentsline {subsection}{\numberline {1.25.4}Divide \& Conquer}{26}
+\contentsline {subsection}{\numberline {1.25.5}Effizienz:}{26}
+\contentsline {subsection}{\numberline {1.25.6}Arten/Stufen der Rekursion}{26}
+\contentsline {subsubsection}{Lineare Rekursion}{26}
+\contentsline {subsubsection}{Kaskadenrekursion}{26}
+\contentsline {subsubsection}{Endrekursion (Tail Recursion)}{27}
+\contentsline {subsubsection}{Primitive Rekursion}{27}
+\contentsline {section}{\numberline {1.26}Unver\IeC {\"a}nderliche Klassen}{27}
+\contentsline {subsection}{\numberline {1.26.1}Motivation}{27}
+\contentsline {subsection}{\numberline {1.26.2}final-Objektvariablen}{27}
+\contentsline {subsection}{\numberline {1.26.3}R\IeC {\"u}ckgabe neuer Objekte}{27}
+\contentsline {section}{\numberline {1.27}Wertesemantik}{28}
+\contentsline {subsection}{\numberline {1.27.1}Definition}{28}
+\contentsline {subsection}{\numberline {1.27.2}Warum Wertesemantik?}{28}
+\contentsline {section}{\numberline {1.28}Kopieren und vergleichen}{28}
+\contentsline {subsection}{\numberline {1.28.1}Flache Kopie}{28}
+\contentsline {subsection}{\numberline {1.28.2}Tiefe Kopie}{29}
+\contentsline {subsection}{\numberline {1.28.3}Kopieren von Objektvariablen}{29}
+\contentsline {subsection}{\numberline {1.28.4}Vergleich von Objekten}{29}
+\contentsline {section}{\numberline {1.29}Datenkapselung}{30}
+\contentsline {subsection}{\numberline {1.29.1}Idee:}{30}
+\contentsline {subsection}{\numberline {1.29.2}Daten und Operationen}{30}
+\contentsline {subsection}{\numberline {1.29.3}Zugriffsschutz}{30}
+\contentsline {subsection}{\numberline {1.29.4}private-Methoden}{30}
+\contentsline {subsection}{\numberline {1.29.5}Getter}{31}
+\contentsline {subsection}{\numberline {1.29.6}Setter}{31}
+\contentsline {subsection}{\numberline {1.29.7}Vorteile Setter/Getter}{31}
+\contentsline {section}{\numberline {1.30}Vererbung}{32}
+\contentsline {subsection}{\numberline {1.30.1}Interfaces}{32}
+\contentsline {subsubsection}{Idee:}{32}
+\contentsline {subsubsection}{Interface vs. Klasse}{33}
+\contentsline {subsubsection}{Implementieren von Interfaces: Klasse zum Interface}{33}
+\contentsline {subsubsection}{Interfaces als Typen}{33}
+\contentsline {subsubsection}{Methodenaufrufe}{33}
+\contentsline {subsubsection}{Dynamisches Binden}{34}
+\contentsline {subsubsection}{Statischer vs. Dynamischer Typ}{34}
+\contentsline {subsubsection}{Einsatz von Interfaces}{34}

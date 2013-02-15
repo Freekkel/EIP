@@ -350,7 +350,7 @@ $\Rightarrow$ kann in einem übergeordneten switch stehen
 \item Typ int als switch-Ausdruck zulässig
 \item Nicht zulässig:
 \begin{itemize}
-	\item double (Test von exakten Werten problematisch ⇒ Rundungsfehler)
+	\item double (Test von exakten Werten problematisch $\Rightarrow$ Rundungsfehler)
 	\item boolean (nur zwei Werte)
 	\item ...
 \end{itemize}
@@ -770,4 +770,864 @@ for (int i = 0; i < a.length; i++){
 \item Sequentieller Durchlauf, keine Sprünge
 \item Nur ein Array, nicht mehrere parallel
 \item Durchlauf abbrechen nur mit break
+\end{itemize}
+\subsubsection{Anwendung}
+foreach geeignet für beispielsweise ...
+\begin{itemize}
+\item Ausgabe von Elementen
+\item Suche nach Element
+\item Änderungen in Elementen
+\end{itemize}
+ Nicht brauchbar für...
+ \begin{itemize}
+\item Initialisierung
+\item Kopieren von Arrays
+\item Vergleich zweier Arrays
+\end{itemize}
+
+\subsection{Varargs}
+\begin{itemize}
+\item Mit Varargs (variable length argument lists) veränderliche Anzahl Argumente möglich
+\item Methodendefinition mit Vararg-Parameter
+\item Vararg-Parameter syntaktisch markiert mit Typ und drei Punkten:\\
+type... name
+\item Beispiel:\\
+int sum(int... args) \{ \}
+\item Varargs ausschließlich in Parameterlisten erlaubt, nirgends sonst
+\item Vararg-Parameter im Methodenrumpf verwendbar wie ein Array
+\item Beispiel: int sum(int... args) ist im Rumpf der Methode gleichwertig mit int sum(int[] args)
+\item Aufrufer liefert beliebig viele Argumente für einen Vararg-Parameter \\
+sum(1, 2, 3)
+\item Jedes einzelne Argument muß kompatibel zum Vararg-Parameter sein
+\item Bei der Parameterübergabe:
+\begin{itemize}
+\item Allokieren eines neuen Arrays mit Länge = Anzahl Argumente
+\item Initialisieren des Arrays mit Argumentwerten
+\item Zuweisen des Arrays an den Vararg-Parameter
+\end{itemize}
+\end{itemize}
+%
+%
+%
+\section{Konstruktoren}
+\begin{itemize}
+\item Definition eines Konstruktors wie normale Methode, außer ...
+\begin{itemize}
+\item derselbe Name wie die Klasse
+\item kein Vorsatz von void (oder anderem Ergebnistyp)
+\end{itemize}
+\item Abgesehen davon: Kopf, Parameterliste, Rumpf wie andere Methoden
+\item Konstruktor mit leerer Parameterliste = Default-Konstruktor (engl. „def-ctor“)
+\item new ruft automatisch Konstruktor auf
+\end{itemize}
+\subsubsection{Ziel:}
+Automatisch sinnvoller Startzustand für neu geschaffene Objekte
+\subsubsection{Idee:}
+Aufruf einer normalen Methode, überladen z.B. set für Rational-Objekte
+\subsubsection{Beispiel:}
+leere Parameter:
+\begin{lstlisting}[language=JAVA]
+Rational r = new Rational();
+r.set(0, 1);
+\end{lstlisting}
+
+nicht leere Parameter
+\begin{lstlisting}[language=JAVA]
+class Rational
+{
+	Rational(int n, int d)
+	{
+		numer = n;
+		denom = d;
+	}
+	...
+}
+\end{lstlisting}
+\begin{lstlisting}[language=JAVA]
+Rational r = new Rational(2, 3);    // Aufruf von Rational(int, int)
+r.print();   // gibt 2/3 aus
+\end{lstlisting}
+\begin{itemize}
+\item Technisch in Ordnung, aber unzuverlässig
+\item Besser: Konstruktoren (engl. „constructors“ = „ctors“):
+\item Spezielle Methoden, werden automatisch bei jedem new aufgerufen
+\end{itemize}
+
+\subsection{Defaultwerten von Objektvariablen}
+\begin{itemize}
+\item Lokale Variablen starten nicht initialisiert (ohne Wert)
+\item Gegensatz: Objektvariablen automatisch mit Defaultwerten initialisiert
+\end{itemize}
+\begin{tabular}{l|l}
+Typ & Defaultwert \\ \hline
+int & 0\\
+double & 0.0\\
+boolean & false \\
+char & $\diagdown$u0000\\
+Referenztypen & null\\
+\end{tabular}
+
+\subsection{Copy-Konstruktoren}
+\begin{itemize}
+\item Kopier-Konstruktor (engl. copy-ctor) erzeugt eine Kopie eines bereits existierenden Objekts
+\item Vorlage (= Original-Objekt) wird als Parameter (hier: that) übergeben
+\item Aufruf mit anderem Objekt als „Kopiervorlage“:
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+Rational original = new Rational(2, 3);
+Rational copy= new Rational(original);
+copy.print(); // gibt 2/3 aus
+\end{lstlisting}
+\begin{itemize}
+\item Merkmal eines Kopier-Konstruktors: Parameter der gleichen Klasse
+\item Kopier-Konstruktor ausreichend für einfache Klassen, zu wenig für komplexere Klassen
+\end{itemize}
+
+\subsection{Verkettete Konstruktoren}
+\begin{itemize}
+\item Konstruktoren manchmal aufwändig (Tests und Vorverarbeitung von Parametern, Protokollausgaben, ...)
+\item Falls mehrere überladene Konstruktoren: Kopien des gleichen Codes in jedem Konstruktor
+\item Besser: Code nur in einem Konstruktor, von allen anderen mitbenutzen
+\item Konstruktor-Verkettung (engl. constructor chaining) = Aufruf eines anderen Konstruktors der gleichen Klassen
+\item Syntax: this als Repräsentant des „eigenen Objektes“
+\item Einschränkungen verketteter Konstruktoraufrufe:
+\begin{itemize}
+\item this(...) muss erste Anweisung im Konstruktorrumpf sein
+\item nur ein Aufruf von this(...) erlaubt
+\end{itemize}
+\end{itemize}
+
+\subsection{Ergebnisrückgabe bei Konstruktoren}
+\begin{itemize}
+\item Definition von Konstruktoren ohne Ergebnistyp, auch nicht void
+\item Resultat liegt automatisch fest: neues Objekt
+\item return in Konstruktoren unzulässig
+\item Keine Möglichkeit zur Rückkehr mitten aus dem Rumpf
+\end{itemize}
+%
+%
+%
+\section{Klassenvariablen}
+\subsection{Definition}
+\begin{itemize}
+\item Bisher betrachtete Objektvariablen und Methoden beziehen sich auf ein bestimmtes Objekt (= Zielobjekt)
+\item Klassenvariable: einer ganzen Klasse zugeordnet, nicht einem einzelnen Objekt
+\item Definiert wie normale Objektvariable + Modifier static
+\end{itemize}
+
+\subsection{Zugriff}
+\begin{itemize}
+\item Zugriff mit Klassennamen, statt Zielobjekt Rational.count = 0;
+\item Klassenvariable existiert unabhängig von Objekten der Klasse
+\item Bereits früher benutzt (Wertebereichsgrenzen, mathematische Konstanten)
+\item Beispiel: Math.PI = Klassenvariable PI der Klasse Math
+\end{itemize}
+
+\subsection{Initialisierung}
+\begin{itemize}
+\item Initialisierung bei der Definition wie andere Objektvariablen\\
+.\qquad class Rational { static int count = 0; ... }
+\item Ohne explizite Initialisierung: Defaultwert abhängig vom Typ
+\item Beispiel: Rational.count hätte auch ohne explizite Initialisierung den Defaultwert 0
+\item Lebensdauer einer Klassenvariablen: gesamte Programmlaufzeit, unabhängig von Objekten
+\end{itemize}
+
+\subsection{Verwendung}
+\begin{itemize}
+\item Wichtigste Anwendung von Klassenvariablen: öffentliche Konstanten
+\item Beispiele: Math.PI, Integer.MAX\_VALUE
+\item Werte öffentlicher Konstanten sollen sich nicht ändern:
+\begin{itemize}
+\item Oft mit Modifier static und final
+\end{itemize}
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+class Integer
+{
+	static final int MAX_VALUE = 2147483647;
+	static final int MIN_VALUE = -2147483648;
+	...
+}
+\end{lstlisting}
+\begin{itemize}
+\item Konvention zur Benennung von Konstanten: ganz in Großbuchstaben, Wortteile mit Unterstrichen (\_) getrennt (anders als normale Variablen)
+\item Öffentliche Konstanten werden bei der Definition initialisiert (Alternative: statische Initializer)
+\end{itemize}
+%
+%
+%
+\section{Statische Methoden}
+\begin{itemize}
+\item Statische Methode: richtet sich an ganze Klasse, kein bestimmtes Objekt (Äquivalent zur Klassenvariable)
+\item Definition mit Modifier static, sonstige Modifier und überladen wie gehabt
+\item Einsatz von statischen Methoden meist als Hilfsmethoden, dieunabhängig von bestimmten Objekten sind
+\item Beispiel: ggt-Methode der Klasse Rational
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+class Rational
+{
+	static int gcd(int a, int b)
+	{...}
+}
+\end{lstlisting}
+\begin{itemize}
+\item Kann auch ohne Rational-Objekt benutzt werden\\
+System.out.println(Rational.gcd(221, 255));
+\item Einige vordefinierte Klassen (z.B. Math) definieren nur statische Methoden
+\end{itemize}
+
+\subsection{main}
+\begin{itemize}
+\item Von Anfang an benutzt: statische Methode main = Hauptprogramm
+\item Vor main existiert noch kein Objekt: main muss statisch sein
+\item Wird beim Start eines Javaprogramms von der JVM automatisch in der Klasse gesucht, die auf der Kommandozeile genannt ist
+\item Beispiel: Das Kommando \$java classname sucht nach der Methode
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+class classname
+{
+	public static void main(String... args)
+	{...}
+}
+\end{lstlisting}
+\begin{itemize}
+\item main ansonsten normale Methode: kann zum Beispiel
+	\begin{itemize}
+	\item überladen werden
+	\item vom Programm selbst aufgerufen werden
+	\item  in mehreren verschiedenen Klassen definiert sein
+	\item mit einem anderen Ergebnistyp als void definiert werden.
+	\end{itemize}
+\end{itemize}
+%
+%
+%
+\section{Packages}
+\subsection{Motivation}
+\begin{itemize}
+\item Pro übersetzter Bytecode-Datei (Extension .class): Bytecode einer Klasse
+\item Großes Programm: Viele Bytecode-Dateien
+\item Organisatorische Probleme:
+\begin{itemize}
+\item  Orientierung im Code
+\item  Bezüge zwischen Klassen
+\item Namenskonflikte zwischen gleich benannten Klassen
+\item  Abgrenzung von Programmteilen
+\end{itemize}
+\item Vergleichbar mit Dateien auf einer Festplatte
+\end{itemize}
+\subsubsection{Idee:}
+\begin{itemize}
+\item Package = Sammlung zusammengehörender Klassen
+\item Packages benannt mit Identifiern
+\end{itemize}
+\subsubsection{Konvetion:}
+Englische Namen in kleinen Buchstaben und u.U. Ziffern, zum Beispiel utilities, project51, ...
+\subsubsection{Einschärnkungen:}
+\begin{itemize}
+\item keine Großbuchstaben
+\item keine Interpunktionszeichen
+\item keine anderen Sonderzeichen
+\end{itemize}
+Klassennamen in unterschiedlichen Packages unabhängig, keine Kollisionen
+
+\subsection{Packagehierarchien}
+\begin{itemize}
+\item Packages bilden Hierarchien (Baumstruktur)
+\item in einem Package untergeordnete Packages (Sub-Packages)
+\item Jedes Package in höchstens einem übergeordneten Package
+\item Vergleichbar mit Verzeichnissen in einem Dateisystem
+\item Packagepfad: List geschachtelter Packagenamen, getrennt mit Punkten
+\item Beispiele:
+\begin{itemize}
+	\item project51
+	\item project51.frontend
+	\item project51.frontend.web
+	\item project51.frontend.text
+\end{itemize}
+\item Innerhalb eins Packages eindeutige Namen für alle "Bewohner":
+	\begin{itemize}
+	\item Subpackages
+	\item Klassen
+	\item Enums (als spezielle Klassen)
+	\item Interfaces
+	\end{itemize}
+\item Packagehierarchie existiert nur äußerlich: Für Java sind alle Packages gleichrangig und gleichwertig
+\end{itemize}
+
+\subsection{Dynamisches Laden von Bytecode}
+\begin{itemize}
+\item JVM lädt Klassen bei Bedarf (engl. on the fly), nicht beim Programmstart
+\item Vorteil: Schneller Start, nicht benutzte Klassen werden überhaupt nicht geladen
+\item Bedingung: Bytecode effizient lokalisierbar
+\item Maßnahme: Packagepfad einer Klasse gibt Lage des Bytecodes im Filesystem vor
+\ Direkte Zuordnung Packagepfad $\Rightarrow$ Directorypfad im Filesystem (nur eine Möglichkeit unter mehreren)
+\item Problem:
+	\begin{itemize}
+	\item Packagenamen sind Java-Identifier
+	\item Directorynamen sind Namen des Betriebssystems
+	\end{itemize}
+\item Betriebssysteme schränken Directorynamen ein $\Rightarrow$ defensive Benennungsregeln
+\end{itemize}
+
+\subsection{import-Klausel}
+\begin{itemize}
+\item Klassen sind mit qualifizierten Namen über Packagegrenzen hinweg ansprechbar
+\item Aber: Schreibaufwändig, mühsam, fehlerträchtig
+\item Einfacher mit import-Klausel:\\
+import packagepath.name;
+\item name im Rest des Quelltextes ohne Packagepfad nutzbar
+\item Import aller Klassen eines Packages mit Jokerzeichen (engl. wildcard) *\\
+import packagepath.*;
+\item Joker kann nur Klassen eines Packages ansprechen $ \Rightarrow$ nur einmal und nur als letztes Element in einer import-Klausel
+\item Unzulässig:
+	\begin{itemize}
+	\item import *.datastore;
+	\item import project51.*.*;
+	\end{itemize}
+\item Joker schließt keine Subpackages ein
+\item Mehrere import-Klauseln zulässig, Reihenfolge ohne Bedeutung
+\item import-Klauseln stehen am Programmanfang, vor der Klassendefinition
+\item Bezeichnung Klausel (nicht „Anweisung“): werden nur vom Compiler ausgewertet, generieren keinen ausführbaren Code
+\item import-Klauseln regeln Zugriff auf andere Packages
+\item Gegenstück: package-Klausel definiert Packagezugehörigkeit einer Klassendefinition
+\item Syntax:\\
+package packagepath;
+\item Beispiel:
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+package project51.datastore;
+class Rational {...}
+\end{lstlisting}
+\begin{itemize}
+\item package-Klausel als Erstes im Quelltext (abgesehen von Kommentar), vor import-Klauseln und Definitionen
+\item package-Klausel und Pfad im Filesystem müssen übereinstimmen
+\item Aufruf von Compiler und JVM mit Packagepfad
+\end{itemize}
+
+\subsection{Defaultpackage}
+\begin{itemize}
+\item Quelltext ohne package-Klausel: Defaultpackage (auch: „anonymes  Package“)
+\item Pfad im Filesystem = CLASSPATH ohne Zusatz
+\item Kein Import des Defaultpackages in andere Packages möglich (kein Name!)
+\end{itemize}
+
+\subsection{Archivdateien - Jar-Files}
+\begin{itemize}
+\item Bytecode in einer gepackten Archivdatei = alternative Organisationsform für Packages
+\item Archivformat Jar (java archive), Dateien = „Jar-Files“, Extension .jar
+\item Technisch: Zip-Files mit Erweiterungen
+\item Vorteile gegenüber Directories:
+	\begin{itemize}
+	\item Leicht zusammen zu halten
+	\item Kompression für effiziente Übertragung
+	\item Metainformation bzgl. Inhalt
+	\end{itemize}
+\item Nachteile:
+	\begin{itemize}
+	\item Kein direkter Zugriff auf Bestandteile
+	\item Kompression und Expansion kostet Rechenzeit
+	\end{itemize}
+\item Packagehierarchie in Jar-Files unverändert
+\item JVM findet Bytecode in Jar-Files
+\item Jar-Files im CLASSPATH: Gleichrangige Eintrittspunkte für Packagepfade\\
+ CLASSPATH=/somewhere/project51.jar
+\item Dateien aller Arten in Jar-Files erlaubt, JVM wertet dann nur Bytecode aus
+\item Kommandozeilenwerkzeug jar zur Bearbeitung von Jar-Files
+\item Aufgaben:
+	\begin{itemize}
+	\item  jar -cf jarfile file file ...\\
+	Packt die angegebenen Dateien in ein neues Jarfile (c = create).\\
+	Jokerzeichen sind erlaubt, Directories werden rekursiv eingepackt.
+	\item  jar -tf jarfile\\
+	Liste des Inhalts (t = table of content)
+	\item  jar -xf jarfile, jar -xf jarfile file file ...\\
+	Packt alle bzw. die angegebenen Dateien aus (x = extract). Directories werden rekonstruiert.
+	\end{itemize}
+\item Aufruf mit zusätzlichen Schalter v (= verbose): Protokollausgaben auf dem Bildschirm
+\item Aufruf ohne Parameter: kurze Bedienungsanleitung
+\item Metainformation (= Verwaltungsdaten, Information über das Jarfile) in der Datei META-INF/MANIFEST.MF
+\item Textdatei mit Zeilen der Form \\
+name:value
+\item Wird automatisch angelegt mit Standard-Einträgen der Art\\
+Manifest-Version: 1.0\\
+Created-By: 1.5.0\_04 (Sun Microsystems Inc.)
+\item Viele Einträge mit fester Bedeutung
+\item Zusätzliche Einträge erlaubt
+\end{itemize}
+%
+%
+%
+\section{Rekursion}
+\subsection{Rekursion = Definition einer Funktion durch sich selbst}
+\begin{itemize}
+\item  Rekursive Definitionen erlauben oft intuitive und elegante Formulierungen von Problemen und Algorithmen
+\item Für uns nur sinnvoll: wohldefinierte rekursive Definitionen, rekursiver Abstieg bis zu einer Basisdefinition
+\item Verwandt mit Induktion
+\end{itemize}
+\subsection{Beispiel: Sum(n) := Summe der Zahlen 1..n}
+$Sum(n) = \left\{ \begin{array}{ll}
+         1,n =1 &\\
+         n+Sum(n-1) & \textrm{sonst}.\end{array} \right. 
+$\\
+\begin{lstlisting}[language=JAVA]
+class RecursiveSum
+{
+	static int recursiveSum(intSum(n) = n + Sum(n-1)
+	{
+		int result = (n==1) ? 1 : n + recursiveSum(n-1);
+		return result;
+	}
+	public static void main(String... args)
+	{
+		int n = Integer.parseInt(args[0]);
+		int sum = recursiveSum(n);
+		System.out.printf("Summe von 1...%d ist %d\n", n, sum);
+	}
+}
+\end{lstlisting}
+
+\subsection{Beispiel: Fibonacci-Zahlen}
+$F(n) := \left\{ \begin{array}{ll}
+         0,n =0 &\\
+         1,n =1 &\\
+         F n − 1 + F(n − 2), \text{sonst}.\end{array} \right. 
+$\\
+\begin{lstlisting}[language=JAVA]
+class Fibonacci
+{
+	static int fibonacci(int n)
+	{
+	if (n == 0)
+		return 0;
+	else if (n == 1)
+		return 1;
+	else return fibonacci(n-1) + fibonacci(n-2);
+	}
+	public static void main(String... args)
+	{
+	int n = Integer.parseInt(args[0]);
+	int fib_n = fibonacci(n);
+	System.out.printf("Fibonacci(%d) = %d\n", n, fib_n);
+	}
+}
+\end{lstlisting}
+
+\subsection{Divide \& Conquer}
+Bisher:
+\begin{itemize}
+\item teile Problem in mehrere kleinere Teile
+\item löse diese getrennt
+\item setze sie wieder zusammen
+\end{itemize}
+Idee: Wende dieses Verfahren rekursiv auf die Teilprobleme an, bis triviale Instanzen entstehen!\\
+Extrem wichtiges Verfahren im Algorithmenentwurf, erlaubt oft elegante Formulierung und effiziente Lösung!
+
+\subsection{Effizienz:}
+\begin{itemize}
+\item Rekursive Aufrufe können erhebliche Laufzeitkosten bewirken!
+\item Bei großen Problemen oft sinnvoll: rekursive Formulierung (besseres Verständnis) aber iterative Implementierung (oft höhere Effizienz)
+\item Bestimmte Klassen rekursiver Funktionen lassen sich automatisch in Schleifen (iterative Funktionen) überführen
+\item Wird bei Endrekursion oft vom Compiler gemacht
+\end{itemize}
+
+\subsection{Arten/Stufen der Rekursion}
+\begin{itemize}
+\item Rekursive Definitionen können in verschiedene Klassen eingeteilt werden
+\item Wichtige Klassifizierungen (es gibt noch mehr!):
+	\begin{itemize}
+	\item Lineare Rekursion
+	\item Kaskadenrekursion
+	\item Endrekursion
+	\item Primitive Rekursion
+	\end{itemize}
+\end{itemize}
+\subsubsection{Lineare Rekursion}
+Kommt in der rekursiven Definition nur höchstens ein rekursiver Aufruf vor spricht man von linearer Rekursion \\
+$\Rightarrow$ es ergeben sich Ketten von Aufrufen
+\subsubsection{Kaskadenrekursion}
+Kommen mehrere rekursive Aufrufe in der Definition vor spricht man von Kaskadenrekursion\\
+$\Rightarrow$ Baum von Aufrufen, oft exponentielle Laufzeit
+\subsubsection{Endrekursion (Tail Recursion)}
+Ist nur die letzte Anweisung einer linear rekursiven Funktion ein rekursiver Aufruf spricht man von Endrekursion\\
+$\Rightarrow$ Kann unmittelbar durch while-Schleife ersetzt werden und umgekehrt, wird oft vom Compiler umgesetzt
+\subsubsection{Primitive Rekursion}
+Nimmt bei einer linear rekursiven Funktion der natürlichen Zahlen der Parameter mit jedem Aufruf um 1 ab oder zu spricht man von primitiver Rekursion \\
+$\Rightarrow$ kann unmittelbar durch for-Schleife ersetzt werden
+%
+%
+%
+\section{Unveränderliche Klassen}
+
+\subsection{Motivation}
+\begin{itemize}
+\item Bereits besprochenes Problem: Methode kann unerkannt fremdes Objekt manipulieren
+\item Ursache: Freier Zugriff auf Objektvariablen
+\item Lösungsidee: Unveränderliche Klassen (engl. „immutable classes“)
+\item lassen keine Änderungen an Objektvariablen zu
+\item Folge: Lesen von Informationen aus Objekten ok, Ändern nicht möglich
+\end{itemize}
+
+\subsection{final-Objektvariablen}
+\begin{itemize}
+\item Modifier final für Objektvariablen blockiert Änderungen (wie bei lokalen Variablen)
+\item final-Objektvariable muss einmal mit einem Wert versorgt werden
+\item Zuweisung des Wertes wahlweise ...
+\begin{itemize}
+	\item  Im Konstruktor
+	\item Bei Initialisierung
+\end{itemize}
+\item  Nicht ausreichend:
+\begin{itemize}
+\item Defaultwert
+\item anderer Methodenaufruf
+\end{itemize}
+\item Nachfolgende Änderung unzulässig $\Rightarrow$ erster (und einziger) Wert bleibt für die gesamte Lebensdauer des Objektes konstant
+\end{itemize}
+
+\subsection{Rückgabe neuer Objekte}
+\begin{itemize}
+\item Problem: Änderungen von this nicht mehr möglich
+\item Ausweg: Ergebnis in neuem Objekt zurückliefern, statt this zu modifizieren
+\end{itemize}
+%
+%
+%
+\section{Wertesemantik}
+
+\subsection{Definition}
+\begin{itemize}
+\item Wertesemantik (engl. „value semantics“) einer Klasse: Methoden lassen this und Parameter unberührt
+\item Verhalten entspricht dem von primitiven Typen: Operationen lassen Operanden unberührt
+\item Gegensatz: Referenzsemantik (engl. „reference semantics“): \\
+Operationen können this oder Parameter-Objekte oder beide verändern
+\item Zusammenfassung:
+\end{itemize}
+\begin{tabular}{ll}
+Primitive Typen & Wertesemantik \\
+Unveränderliche Klassen & Wertesemantik\\
+Veränderliche Klassen & Referenzsemantik\\
+\end{tabular}
+
+\subsection{Warum Wertesemantik?}
+\begin{itemize}
+\item Wertesemantik ist oft vorteilhaft
+\item Beispiel: Suche nach der Ursache für fehlerhaftes Objekt
+\item Referenzsemantik: Jeder Methodenaufruf kommt in Betracht, muss überprüft werden
+\item Beispiel: a.mult(b);\\
+könnte a oder b oder keines oder beide verändern
+\item Wertesemantik: Nur Konstruktoraufrufe zu prüfen
+\item Methodenaufrufe können ein korrekt erzeugtes Objekt nicht mehr stören
+\item Definieren Sie Klassen wenn möglich mit Wertesemantik (= unveränderlich)
+\end{itemize}
+%
+%
+%
+\section{Kopieren und vergleichen}
+
+\subsection{Flache Kopie}
+\begin{itemize}
+\item Problematisch: Klasse mit Objekten als Objektvariablen
+\item  Simpler Kopier-Konstruktor mit Wertzuweisungen: dupliziert Referenzen, nicht Objekte (Aliasing)
+\item  Der einfache Kopier-Konstruktor erzeugt eine flache Kopie (engl. „shallow copy“): Original und Kopie referenzieren dieselben Objektvariablen
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+class RatRange
+{
+	RatRange(RatRange that)
+	{
+		lower = that.lower;
+		upper = that.upper;
+	}
+	...
+}
+\end{lstlisting}
+
+\subsection{Tiefe Kopie}
+\begin{itemize}
+\item Objektvariablen mit Kopier-Konstruktor statt Wertzuweisung kopieren
+\item Äußerlich kein Unterschied
+\item Erzeugt eine tiefe Kopie (engl. „deep copy“): Original und Kopie enthalten logisch gleiche, isolierte Objektvariablen:
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+class RatRange
+{
+	RatRange(RatRange that)
+	{
+		lower = new Rational(that.lower);
+		upper = new Rational(that.upper);
+	}
+	...
+}
+\end{lstlisting}
+
+\subsection{Kopieren von Objektvariablen}
+\begin{itemize}
+\item Regeln zum Kopieren von Objektvariablen im Kopier-Konstruktor abhängig vom Typ:
+\end{itemize}
+\begin{tabular}{ll}
+primitiver Typ & Wertzuweisung (Beispiel Rational)\\
+Referenztyp & Kopier-Konstruktor\\
+Unveränderliche Klassen & Wertzuweisung (wie primitive Objektvariablen)\\
+\end{tabular}		
+\begin{itemize}
+\item Aber: Kopier-Konstruktor zu schwach bei Vererbung (siehe später)
+\item Dort: mächtigerer Mechanismus nötig
+\end{itemize}
+
+\subsection{Vergleich von Objekten}
+\begin{itemize}
+\item Methode equals zum Vergleich von Objekten
+\item equals erwartet anderes Objekt x als Parameter, liefert ...
+\begin{itemize}
+\item true wenn dieses Objekt und x logisch gleichwertig sind
+\item false wenn dieses Objekt und x logisch verschieden sind
+\end{itemize}
+\item Was heißt „logisch gleich“?
+\begin{itemize}
+\item Benutzer kann Objekte nicht unterscheiden
+\item ... so lange keines von beiden verändert wird
+\end{itemize}
+\item Gleichheit ist schwächer als Identität:
+\begin{itemize}
+\item zwei identische Objekte sind auch gleich,
+\item zwei gleiche Objekte müssen nicht identisch sein
+\end{itemize}
+\end{itemize}
+%
+%
+%
+\section{Datenkapselung}
+\subsection{Idee:}
+\begin{itemize}
+\item Modul (engl. module) = Programmteil, in Java i.d.R. eine Klasse
+\item Modularisierung = Aufteilung in Module
+\item Modularisierung ist Ziel bei der Konstruktion von (größeren) Programmen
+\item Reduktion der Abhängigkeiten zwischen Modulen: Module leichter einzeln
+\begin{itemize}
+\item entwerfen
+\item implementieren
+\item austauschen
+\item erweitern
+\item testen
+\item korrigieren
+\item ...
+\end{itemize}
+\item Datenkapselung (engl. „data hiding“, „data encapsulation“): Maßnahme zur Reduktion der Abhängigkeiten
+\end{itemize}
+
+\subsection{Daten und Operationen}
+\begin{itemize}
+\item Datenkapselung = Verbergen von Daten hinter Operationen
+\item Zugriff auf Daten nur über Operationen
+\item Java (und andere objektorientierte Sprachen):
+\end{itemize}
+\begin{tabular}{ll}
+Daten & $\leftrightarrow$ Objektvariablen\\
+Operationen & $\leftrightarrow$ Methoden\\
+\end{tabular}
+\begin{itemize}
+\item Anwender einer Klasse darf Methoden aufrufen, aber keine Objektvariablen ansprechen
+\end{itemize}
+
+\subsection{Zugriffsschutz}
+\begin{itemize}
+\item Modifier private begrenzt Sichtbarkeit einer Definition auf die eigene Klasse
+\item Von außen kein Zugriff
+\item Innerhalb der eigenen Klasse keine Einschränkung
+\item private gilt für den Compiler beim Übersetzen, nicht für die JVM zur Laufzeit
+\item private schottet Klassen gegeneinander ab, nicht Objekte!\\
+$\Rightarrow$ Unveränderliche Klassen zusammen mit Datenkapselung einsetzen
+\end{itemize}
+
+\subsection{private-Methoden}
+\begin{itemize}
+\item private für alle Definitionen möglich, auch für Methoden
+\item  private-Methoden von außen nicht aufrufbar, nur von Methoden der eigenen Klasse
+\item Sinnvoll für Hilfsmethoden, die der Anwender nicht benutzen soll
+\end{itemize}
+
+\subsection{Getter}
+\begin{itemize}
+\item private-Objektvariable von außen nicht erreichbar
+\item  Wert dennoch zugänglich machen: Auskunftsmethode (auch „Inspector-Methode“, „Accessor-Methode“, engl. „getter“) anbieten
+\item Definition eines Getter zu einer Objektvariablen:\\
+private type name;
+\item nach dem Muster:
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+type getName()
+{
+	return name;
+}
+\end{lstlisting}
+
+\subsection{Setter}
+\begin{itemize}
+\item private-Objektvariablen in veränderlichen Klassen: von außen kein Zugriff, keine Veränderung möglich
+\item Um dennoch Modifikation zulassen: Änderungsmethoden (auch „Modifier-Methoden“, engl. „setter“) anbieten
+\item Definition eines Setter zu einer Objektvariablen \\
+private type name;
+\item nach dem Muster (hier this sinnvoll anwendbar):
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+void setName(type name)
+{
+	this.name = name;
+}
+\end{lstlisting}
+
+\subsection{Vorteile Setter/Getter}
+Private Objektvariablen, Setter und Getter auf den ersten Blick unnötig kompliziert gegenüber ungeschützten, öffentlichen Objektvariablen. Einsatz von Settern und Gettern dennoch sehr sinnvoll:
+\begin{itemize}
+\item Kontrolle der Werte
+\begin{itemize}
+\item Oft nur eine Teilmenge aller Werte des Typs einer Objektvariablen zulässig
+\item Beispiel Rational: denom darf nicht null sein
+\item Setter können unerwünschte Werte abweisen; bei freiem Zugriff keine Kontrolle
+\end{itemize}
+\item Fehlersuche
+\begin{itemize}
+\item Setter können alle Zugriffe auf Objektvariablen protokollieren; bei freiem Zugriff keine Überwachung möglich
+\end{itemize}
+\item Abweichende Implementierung
+\begin{itemize}
+\item Tatsächliche Objektvariable hinter Setter und Getter nicht sichtbar, muss überhaupt nicht existieren
+\item Entsprechende Werte können pro Aufruf neu berechnet werden; für den Anwender nicht unterscheidbar
+\end{itemize}
+\item Verborgene Optimierungen
+\begin{itemize}
+\item Mit Gettern können Maßnahmen bis zum tatsächlichen Zugriff verzögert werden
+\item Beispiel Rational: Mit ungekürztem Bruch rechnen, erst beim Aufruf eines Getters wirklich kürzen
+\end{itemize}
+\end{itemize}
+%
+%
+%
+\section{Vererbung}
+\subsection{Interfaces}
+\begin{itemize}
+\item Schnittstelle (engl. interface) einer Klasse:
+\begin{itemize}
+\item Signaturen der öffentlichen (= nicht-privaten) Methoden
+\item + öffentliche (= nicht-private) Objektvariablen
+\end{itemize}
+\item Implementierung: alles andere
+\item Intuitiv:
+\begin{itemize}
+\item Das Interface beschreibt, was eine Klasse bietet
+\item Die Implementierung legt fest, wie sie das bewerkstelligt
+\end{itemize}
+\item Anwender muss nur das Interface einer Klasse kennen, um sie zu  verwenden
+\item Beziehung zwischen Klassendefinition und Anwendung ähnelt Geschäftsbeziehung:
+\end{itemize}
+\begin{tabular}{ll}
+\textbf{Java} & \textbf{Geschäftsleben} \\ \hline
+Klassendefinition  & Anbieter, Lieferant \\
+Anwendung einer Klasse & Kunde \\
+Interface & Vertrag, vereinbarte Leistungen \\
+Implementierung & Betriebsmittel, interne Maßnahmen, Geschäftsgeheimnisse \\
+\end{tabular}
+
+\subsubsection{Idee:}
+\begin{itemize}
+\item Interface = isolierte Schnittstelle, ohne Implementierung (siehe Datenkapselung)
+\item Ähnlich wie Klassendefinition, aber mit reserviertem Wort interface statt class
+\item Im Interface fehlen Rümpfe der public-Methoden (statt dessen nur „;“) andere als public-Methoden, Konstruktoren, Objektvariablen (außer öffentlichen Konstanten)
+\end{itemize}
+\begin{lstlisting}[language=JAVA]
+interface Complex
+{
+	public double getReal();
+	public double getImag();
+	public double getDistance();
+	public double getPhase();
+	public Complex add(Complex that);
+	public Complex mult(Complex that);
+	...
+}
+\end{lstlisting}
+
+\subsubsection{Interface vs. Klasse}
+\begin{itemize}
+\item Interface ≈ Vertrag, aber Interface ≠ Klasse
+\item Legt nur Anforderungen fest, liefert keine Implementierung
+\item Keine Objekte von Interfaces möglich!
+\item Wie bei Klassen: Eine Interfacedefinition pro Quelltextdatei, \\
+Dateiname = Interfacename + .class
+\item Beispiel: Interface Complex in der Quelltextdatei Complex.java
+\item Bytecode: ohne ausführbare Anweisungen
+\item Elemente eines Interfaces implizit public, alles andere unzulässig
+\end{itemize}
+
+\subsubsection{Implementieren von Interfaces: Klasse zum Interface}
+\begin{itemize}
+\item Isoliertes Interface nutzlos
+\item Konkrete Klassen implementieren das Interface = definieren die Methoden des Interface
+\item implements koppelt Klasse mit Interface.
+\item Schematisch:\\
+class Name implements Interface\\
+{\\
+.\qquad...\\
+}
+\item Klassendefinition ansonsten normal
+\item Implementierung von Interfaces in einer Klasse \\
+class Polar implements Complex {...}
+\item Interfaces kennen keine konkreten Objekte, keine Objektvariablen\ $\Rightarrow$ können keine Konstruktoren besitzen
+\end{itemize}
+
+\subsubsection{Interfaces als Typen}
+\begin{itemize}
+\item Interfaces sind Typen, ebenso wie Klassen
+\item Zulässig für Variablendefinitionen, Parameterlisten, Methodenergebnis, Arrayelemente, ...
+\item Beispiel: Variable c vom Typ Complex\\
+Complex c;
+\item Objekte des Interface gibt es nicht. Was könnte c überhaupt zugewiesen werden?
+\item Alle implementierenden Klassen kompatibel zum Interface
+\item Beispiel: An c kann ein Cartesian-Objekt zugewiesen werden:\\
+Complex c = new Cartesian(1, 2);
+\end{itemize}
+
+\subsubsection{Methodenaufrufe}
+\begin{itemize}
+\item Methodenaufruf mit Variable von Interfacetyp uneindeutig
+\item Im allgemeinen Fall: Der Compiler kann keine getReal-Methode auswählen!
+\end{itemize}
+
+\subsubsection{Dynamisches Binden}
+\begin{itemize}
+\item Auswahl einer konkreten Methode fällt erst zur Laufzeit, der Compiler trifft keine Entscheidung
+\item JVM sucht pro Aufruf eine Methode des momentan zugewiesenen Objekts
+\item Bezeichnung: Dynamisches Binden = Zuordnung Aufruf ↔ Rumpf zur Laufzeit (weitere Form des Polymorphismus)
+\end{itemize}
+
+\subsubsection{Statischer vs. Dynamischer Typ}
+\begin{itemize}
+\item Dynamischer Typ = Typ des tatsächlich an eine Variable zugewiesenen Objekts\\
+Complex c = new Cartesian(1, 2);
+\item c hat den ...
+\end{itemize}
+\begin{tabular}{ll}
+statischen Typ & Complex (gemäß Variablendefinition) \\
+dynamischen Typ & Cartesian (das tatsächlich zugewiesene Objekt)\\
+\end{tabular}
+\begin{itemize}
+\item Der ...
+\begin{itemize}
+\item statische Typ bleibt immer gleich
+\item dynamische Typ kann sich ändern
+\end{itemize}
+\item Beim Übersetzen ist der statische Typ entscheidend (Compiler)
+\item Zur Laufzeit ist der dynamische Typ entscheidend (JVM)
+\end{itemize}
+
+\subsubsection{Einsatz von Interfaces}
+\begin{itemize}
+\item Entwicklung, Modifikation von Interface-Implementierungen ohne Rücksicht auf andere Klassen zum gleichen Interface
+\item Beispiel: neue, dritte Implementierung komplexe Zahlen namens Perplex:
+\item Existenz von Cartesian und Polar kann vollkommen ignoriert werden
+\begin{itemize}
+\item Anwenderprogramme können sofort mit Perplex arbeiten
+\item  Reibungsloses Zusammenspiel automatisch sichergestellt
+\end{itemize}
 \end{itemize}
