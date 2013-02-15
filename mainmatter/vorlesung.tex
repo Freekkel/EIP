@@ -1,7 +1,4 @@
-\chapter{Vorlesungen}
-%
-%
-%
+\chapter{Lernskript}
 \section{Java-Editionen}
 	\begin{itemize}
 	\item Java läuft auf sehr unterschiedlichen Systemen
@@ -1630,4 +1627,177 @@ dynamischen Typ & Cartesian (das tatsächlich zugewiesene Objekt)\\
 \item Anwenderprogramme können sofort mit Perplex arbeiten
 \item  Reibungsloses Zusammenspiel automatisch sichergestellt
 \end{itemize}
+\end{itemize}
+
+\subsection{Vererbung}
+\subsubsection{Code kopieren}
+\begin{itemize}
+\item Ergebnis: Zwei isolierte Klassen ohne Bezug
+\item Problem: Fehler im Code von OpenCounter auch in MemCounter, muss zweimal identisch korrigiert werden
+\item Idee: Gemeinsames Interface für OpenCounter und MemCounter
+\item Jetzt: Verwandtschaft im Code dokumentiert
+\item Aber: keine Hilfe bei Fehlerkorrektur
+\end{itemize}
+
+\subsubsection{Begriffe}
+\begin{itemize}
+\item Neuer Mechanismus: Ableitung (derivation) einer zugrunde gelegten, einfacheren Klasse zu einer erweiterten Klasse
+\item Bezeichnungen:
+\begin{itemize}
+\item zugrunde liegende Klasse = Basisklasse (base class, super class)
+\item erweiterte Klasse = abgeleitete Klasse (derived class)
+\end{itemize}
+\item OpenCounter = Basisklasse
+\item MemCounter = abgeleitete Klasse
+\item Auch Vererbung (inheritance): MemCounter erbt von OpenCounter
+\item Achtung: keine Mehrfachvererbung (Mehrfachableitung) möglich!
+\item Aber: Kombination mit Interface-Implementierung erlaubt!
+\end{itemize}
+
+\subsubsection{Abgeleitete Klassen}
+\begin{itemize}
+\item Definition einer abgeleiteten Klasse reduziert auf Unterschiede zur Basisklasse
+\item Syntax einer abgeleiteten Klasse Derived:\\
+class Derived extends Base ...
+\item Ableitung ist asymmetrisch:
+\begin{itemize}
+\item Die abgeleitete Klasse kennt ihre Basisklasse (siehe Syntax)
+\item Eine Basisklasse weiß nichts von abgeleiteten Klassen
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Ableiten zur Modifikation}
+\begin{itemize}
+\item Abgeleitete Klasse kann Methoden redefinieren (= neu definieren, überschreiben), die bereits in der Basisklasse definiert sind
+\item Regeln:
+\begin{itemize}
+\item Methodenname und Typen in Parameterliste müssen exakt übernommen werden (Parameternamen dürfen geändert werden!)
+\item der Zugriffsschutz darf gelockert werden
+\item Der Ergebnistyp darf vom Ergebnistyp der redefinierten Methode abgeleitet sein
+\item  Der Rumpf kann komplett ersetzt werden
+\end{itemize}
+\item Die Basisklasse wird hier nicht erweitert (wie im Beispiel MemCounter), sondern verändert
+\end{itemize}
+
+\subsubsection{Einschränken einer Basisklasse}
+\begin{itemize}
+\item Abgeleitete Klassen können die Funktionalität Basisklasse erweitern oder ändern, aber keinesfalls einschränken
+\item Kein Sprachmittel zum Ausblenden ererbter Methoden oder Objektvariablen
+\item Fazit: Ein abgeleitetes Objekt kann alles, was ein Basisklassenobjekt kann, möglicherweise auch mehr, aber keinesfalls weniger
+\end{itemize}
+
+\subsubsection{Aufruf des Basisklassen-Konstruktors}
+\begin{itemize}
+\item Jeder Konstruktor einer abgeleiteten Klasse muss zuerst einen Basisklassen-Konstruktor aufrufen
+\item Folge: Basisklassenobjekt vollständig initialisiert, wenn abgeleiteter Konstruktor abläuft
+\item Voreinstellung: Default-Konstruktor der Basisklasse
+\item Basisklassen-Default-Konstruktor explizit aufrufen mit super();
+\item Einschränkungen des Aufrufs von super:
+\begin{itemize}
+\item nur ein Aufruf
+\item erste Anweisung im Konstruktorrumpf
+\end{itemize}
+\item super in normalen Methoden referenziert Basisklassenobjekt als Zielobjekt (weitere Nutzung von super, unabhängig vom Aufruf eines Basisklassen-Konstruktors)
+\item super startet die Suche nach einer passenden Methode (dynamisches Binden) in der Basisklasse, statt in der eigenen Klasse
+\item Keine Verkettung von super: spricht nur das unmittelbare Basisklassenobjekt an, kann die Basisklasse der Basisklasse nicht erreichen
+\end{itemize}
+
+\subsubsection{Anonyme Klassen}
+Anonyme Klassen sind lokale Klassen mit ein paar Besonderheiten, u.A.:
+\begin{itemize}
+\item Ist ihr Typ nur im lokalen Block bekannt
+\item Implementieren sie nie einen Konstruktor (andere lokale Klassen dürfen das)
+\item Können sie auf statische Variablen der umgebenden Klasse zugreifen (auch auf private-markierte)
+\item Können sie auf Objektvariablen der umgebenden Klasse zugreifen (auch auf private-markierte!), wenn sie in einer nicht-statischen Methode definiert wurden
+\end{itemize}
+
+\section{GUI}
+\begin{itemize}
+\item Java enthält umfangreiche Packages für die Programmierung von Benutzeroberflächen (GUI)
+\item Grundidee: Package enthält Methoden, Klassen und Schnittstellen für typische Bedienelemente und Aufgaben in Benutzeroberflächen
+\item Klassenhierarchie für Bedienelemente: alle Bedienelemente abgeleitet von Basisklasse oder Interface, Package kann Liste von Bedienelementen verwalten
+\item Bedienelemente „wissen“ z.B. (d.h., bieten eine Methode an) wie sie sich selbst zeichnen
+\item Benutzer kann solche Elemente erweitern oder implementieren und auf verschiedene Arten kombinieren
+\end{itemize}
+
+\subsection{Die Container-Klassen in Swing}
+\begin{itemize}
+\item Container gruppieren User-Interface-Elemente \\
+$\Rightarrow$ Ein oder mehrere UI-Elemente können in einem Container platziert werden
+\item JFrame:\\
+Startpunkt graphischer Interfaces; ein Fenster oder Rahmen für die UI-Elemente; enthält z.B. eine Menüleiste und Toolbar, sowie einen Platz für weitere UI-Elemente (ContentPane)
+\item JDialog:\\
+Dialogfenster, erlaubt Abfragen an Benutzer
+\item JComponent 
+\begin{itemize}
+\item JComponent stellt eine Basisklasse für UI-Elemente zur Verfügung, mit denen der Benutzer interagieren kann.
+\item Container können JComponents enthalten und über LayoutManager anordnen
+\item Jede JComponent ist auch Container \\
+$\Rightarrow$ JComponents können andere JComponents enthalten
+\end{itemize}
+\item JPanel stellt einen Rahmen für weitere UI-Elemente zur Verfügung, der in einen Container integriert werden kann\\
+ Jedes JPanel kann anderes Layout verwenden (z.B. horizontal oder vertikal) \\
+$\Rightarrow$ vereinfacht komplexe Anordnung vieler Elemente in einem übergeordneten Container
+\item JLabel zeigt statischen Text oder Bild an, oft gebraucht für Beschriftungen anderer Elemente oder Erklärungen\\
+Wichtige Funktionen:
+\begin{itemize}
+\item void setText(String text)\\
+setzt anzuzeigenden Text
+\item void setIcon(Icon icon)\\
+setzt anzuzeigendes Bild
+\end{itemize}
+\item JButton erzeugt einen Knopf für die GUI, der einen Text oder Bild anzeigt
+und auf Druck reagieren kann\\
+Wichtige Funktionen:
+\begin{itemize}
+\item void setText(String text) \\
+setzt anzuzeigenden Text
+\item void setIcon(Icon icon)\\
+setzt anzuzeigendes Bild
+\item void addActionListener(ActionListener a)\\
+registriert von ActionListener abgeleitete Klasse, deren Funktionen
+bei Ereignissen (z.B. Knopfdruck) aufgerufen werden
+\end{itemize}
+\item JTextField erzeugt einen Bereich, in den der Benutzer Text eingeben kann, der später vom Programm ausgelesen werden kann\\
+Wichtige Funktionen:
+\begin{itemize}
+\item void setText(String text)\\
+setzt anzuzeigenden Text
+\item  String getText()\\
+gibt angezeigten Text zurück
+\item void addActionListener(ActionListener a)\\
+registriert von ActionListener abgeleitete Klasse, deren Funktionen bei Ereignissen (z.B. Texteingabe) aufgerufen werden
+\end{itemize}
+\end{itemize}
+\begin{tabular}{l|l}
+Komponente & Beschreibung \\ \hline
+JButton & Einfacher Druckknopf\\
+JCheckBox & An- bzw. abwählbare Box\\
+JComboBox & Auswahlbox\\
+JList & Auswahlliste\\
+JRadioButton & Auswahlknopf\\
+JMenu & Menüleiste\\
+JSlider & Schieberegler\\
+JFileChooser & Dateiauswahldialog\\
+JTable &Tabellenansicht\\
+\end{tabular}
+
+\subsection{Wichtige LayoutManager: Kurzübersicht}
+\begin{tabular}{l|l}
+Layout & Beschreibung\\ \hline
+FlowLayout &Füllt Zeilenweise mit Elementen auf, bricht automatisch bei Bedarf in neue Zeilen um\\
+BoxLayout & Wahlweise zeilen- oder spaltenbasiertes Layout. Legt Objekte über- oder nebeneinander ab\\
+GridLayout &  Generiert x/y – Gitter von Komponenten\\
+CardLayout & Ansammlung von Tabs in einem Container\\
+\end{tabular}
+
+\subsection{Events}
+\begin{itemize}
+\item Events: Verbindung von Benutzerinteraktion mit eigenem Code
+\item Der Benutzer kann mit der GUI interagieren, aber wie bekommt unser Code Änderungen/Interaktionen mit?
+\item Grundidee: Swing überprüft in einer Schleife (unterstützt durch Betriebssystem und Windowmanager) bestimmte Zustände, z.B. Mausposition, Status der Mausknöpfe, Tastendruck usw.
+\item Ereignisse (Events) werden an interessierte Parteien weitergegeben
+\item Wie meldet man Interesse an und wie funktioniert die Weitergabe?
+\item Hinterlegen (registrieren) einer Klasse, die das ActionListener – Interface implementiert
+\item Swing bestimmt betroffene Komponenten, iteriert über hinterlegte ActionListener und ruft deren actionPerformed(ActionEvent e) – Methode auf
 \end{itemize}

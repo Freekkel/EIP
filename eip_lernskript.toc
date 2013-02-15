@@ -1,5 +1,5 @@
 \select@language {ngerman}
-\contentsline {chapter}{\numberline {1}Vorlesungen}{1}
+\contentsline {chapter}{\numberline {1}Lernskript}{1}
 \contentsline {section}{\numberline {1.1}Java-Editionen}{1}
 \contentsline {section}{\numberline {1.2}Java-Entwicklungssystem}{1}
 \contentsline {section}{\numberline {1.3}Namen in Java}{1}
@@ -126,3 +126,15 @@
 \contentsline {subsubsection}{Dynamisches Binden}{34}
 \contentsline {subsubsection}{Statischer vs. Dynamischer Typ}{34}
 \contentsline {subsubsection}{Einsatz von Interfaces}{34}
+\contentsline {subsection}{\numberline {1.30.2}Vererbung}{34}
+\contentsline {subsubsection}{Code kopieren}{34}
+\contentsline {subsubsection}{Begriffe}{35}
+\contentsline {subsubsection}{Abgeleitete Klassen}{35}
+\contentsline {subsubsection}{Ableiten zur Modifikation}{35}
+\contentsline {subsubsection}{Einschr\IeC {\"a}nken einer Basisklasse}{35}
+\contentsline {subsubsection}{Aufruf des Basisklassen-Konstruktors}{36}
+\contentsline {subsubsection}{Anonyme Klassen}{36}
+\contentsline {section}{\numberline {1.31}GUI}{36}
+\contentsline {subsection}{\numberline {1.31.1}Die Container-Klassen in Swing}{37}
+\contentsline {subsection}{\numberline {1.31.2}Wichtige LayoutManager: Kurz\IeC {\"u}bersicht}{38}
+\contentsline {subsection}{\numberline {1.31.3}Events}{38}
